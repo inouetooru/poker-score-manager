@@ -3,7 +3,7 @@ import { useGame } from '../contexts/GameContext';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
-import { Trash2, UserPlus } from 'lucide-react';
+import { Trash2, UserPlus, Save } from 'lucide-react';
 import type { GameResult } from '../types/definitions';
 import { cn } from '../lib/utils';
 import { useInterstitialAd } from '../hooks/useInterstitialAd';
@@ -373,6 +373,25 @@ export function NewRound({ onSave, onCancel }: NewRoundProps) {
         </CardContent>
       </Card>
 
+      {/* 保存・キャンセルボタン */}
+      <div className="mt-8 mb-6 flex items-center justify-between gap-4">
+        <Button
+          variant='outline'
+          size="lg"
+          onClick={onCancel}
+          className="h-14 px-6 border-2 font-semibold"
+        >
+          キャンセル
+        </Button>
+
+        <Button
+          size="lg"
+          onClick={handleSave}
+          className="h-16 flex-1 max-w-[240px] text-xl font-bold shadow-2xl bg-primary"
+        >
+          <Save className='mr-2 h-6 w-6' /> 保存
+        </Button>
+      </div>
     </div>
   );
 

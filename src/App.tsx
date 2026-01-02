@@ -2,7 +2,7 @@
 import { GameProvider } from './contexts/GameContext';
 import { Dashboard } from './components/Dashboard';
 import { Button } from './components/ui/Button';
-import { Home, PlusCircle, Users, Settings as SettingsIcon, Save } from 'lucide-react';
+import { Home, PlusCircle, Users, Settings as SettingsIcon } from 'lucide-react';
 import { NewRound } from './components/NewRound';
 import { PlayersList } from './components/PlayersList';
 import { Settings } from './components/Settings';
