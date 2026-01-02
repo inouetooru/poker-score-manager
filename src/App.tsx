@@ -9,6 +9,7 @@ import { Settings } from './components/Settings';
 import { PlayerDetail } from './components/PlayerDetail';
 import { EventDetail } from './components/EventDetail';
 import pokerHeaderImg from './assets/poker_header_closeup_wide.png';
+import { AdBanner } from './components/AdBanner';
 
 type View = 'dashboard' | 'new-round' | 'players' | 'player-detail' | 'event-detail' | 'settings' | 'sessions';
 
@@ -165,6 +166,9 @@ function AppContent() {
           </div>
         </div>
       )}
+
+      {/* 広告バナー（Android端末でのみ表示） */}
+      <AdBanner />
     </div>
   );
 }
