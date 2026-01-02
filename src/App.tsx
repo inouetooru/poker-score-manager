@@ -33,7 +33,7 @@ function AppContent() {
           />
         );
       case 'new-round':
-        return <NewRound onCancel={() => setCurrentView('dashboard')} onSave={() => setCurrentView('dashboard')} />;
+        return <NewRound onSave={() => setCurrentView('dashboard')} />;
       case 'players':
         return (
           <PlayersList

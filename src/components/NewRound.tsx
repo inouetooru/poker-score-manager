@@ -183,6 +183,14 @@ export function NewRound({ onSave }: NewRoundProps) {
     onSave();
   };
 
+  // Expose handleSave globally for App.tsx button
+  useEffect(() => {
+    (window as any).__newRoundSave = handleSave;
+    return () => {
+      delete (window as any).__newRoundSave;
+    };
+  }, [handleSave]);
+
   return (
     <div className='space-y-6 pb-32'>
       <Card>
