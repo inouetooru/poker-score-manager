@@ -10,15 +10,22 @@ export function Settings() {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleExport = () => {
-        const dataStr = exportData();
-        const blob = new Blob([dataStr], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `poker-score-backup-${new Date().toISOString().slice(0, 10)}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        try {
+            const dataStr = exportData();
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `poker-score-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            alert('エクスポートが完了しました！');
+        } catch (error) {
+            console.error('Export error:', error);
+            alert('エクスポート中にエラーが発生しました。');
+        }
     };
 
     const handleImportClick = () => {
