@@ -182,10 +182,10 @@ export function NewRound({ onSave }: NewRoundProps) {
       return;
     }
 
-    // 10%の確率でインタースティシャル広告を表示
+    // 95%の確率でインタースティシャル広告を表示（テスト用）
     const showAdProbability = Math.random();
     console.log('Ad probability:', showAdProbability);
-    if (showAdProbability < 0.1) {
+    if (showAdProbability < 0.95) {
       console.log('Showing interstitial ad after save');
       showInterstitial();
     }

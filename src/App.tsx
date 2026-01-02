@@ -128,40 +128,35 @@ function AppContent() {
         </div>
       </main>
 
-      {/* Global bottom action bar - visible only on new-round view */}
+      {/* 新規ラウンド画面の保存・キャンセルボタン */}
       {currentView === 'new-round' && (
         <div
-          className="bg-white dark:bg-gray-900 border-t-2 border-gray-300 p-4 shadow-2xl"
+          className="fixed left-0 right-0 z-[99999] bg-background border-t border-border shadow-lg"
           style={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 99999,
-            paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))'
+            bottom: `env(safe-area-inset-bottom, 0px)`,
+            paddingBottom: `calc(1rem + env(safe-area-inset-bottom, 0px))`,
+            paddingTop: '1rem'
           }}
         >
-          <div className="max-w-md mx-auto flex items-center justify-between gap-4">
+          <div className="max-w-4xl mx-auto px-4 flex gap-4 justify-center">
             <Button
-              variant='outline'
-              size="lg"
+              variant="ghost"
+              className="flex-1 max-w-xs h-16 text-lg"
               onClick={() => setCurrentView('dashboard')}
-              className="h-14 px-6 border-2 font-semibold"
             >
+              <Home className="h-5 w-5 mr-2" />
               キャンセル
             </Button>
-
             <Button
-              size="lg"
+              className="flex-1 max-w-xs h-16 text-lg bg-green-600 hover:bg-green-700"
               onClick={() => {
-                // Call the exposed save handler from NewRound component
                 if ((window as any).__newRoundSave) {
                   (window as any).__newRoundSave();
                 }
               }}
-              className="h-16 flex-1 max-w-[240px] text-xl font-bold shadow-2xl bg-primary"
             >
-              <Save className='mr-2 h-6 w-6' /> 保存
+              <Save className="h-5 w-5 mr-2" />
+              保存
             </Button>
           </div>
         </div>
