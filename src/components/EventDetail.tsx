@@ -92,7 +92,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                                     <div className="font-medium">{stats.name}</div>
                                     <div className="flex items-center gap-4">
                                         <div className="text-sm text-muted-foreground">{stats.rounds} ラウンド</div>
-                                        <div className={stats.totalProfit > 0 ? "text-green-400 font-bold" : stats.totalProfit < 0 ? "text-red-500 font-bold" : "text-muted-foreground"}>
+                                        <div className={stats.totalProfit > 0 ? "text-blue-400 font-bold" : stats.totalProfit < 0 ? "text-orange-400 font-bold" : "text-muted-foreground"}>
                                             {stats.totalProfit > 0 ? '+' : ''}{stats.totalProfit.toLocaleString()}
                                         </div>
                                     </div>
@@ -138,7 +138,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                                             const result = round.results.find(r => r.playerId === playerId);
                                             const score = result?.score || 0;
                                             return (
-                                                <td key={playerId} className={`text-center p-2 text-sm font-medium ${score > 0 ? 'text-green-500' : score < 0 ? 'text-red-500' : ''}`}>
+                                                <td key={playerId} className={`text-center p-2 text-sm font-medium ${score > 0 ? 'text-blue-400' : score < 0 ? 'text-orange-400' : ''}`}>
                                                     {score > 0 ? '+' : ''}{score.toLocaleString()}
                                                 </td>
                                             );
@@ -155,7 +155,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                                 <tr className="bg-muted/50">
                                     <td className="p-2 text-sm font-bold">合計</td>
                                     {Array.from(playerStats.entries()).map(([playerId, stats]) => (
-                                        <td key={playerId} className={`text-center p-2 font-bold ${stats.totalProfit > 0 ? 'text-green-500' : stats.totalProfit < 0 ? 'text-red-500' : ''}`}>
+                                        <td key={playerId} className={`text-center p-2 font-bold ${stats.totalProfit > 0 ? 'text-blue-500' : stats.totalProfit < 0 ? 'text-orange-500' : ''}`}>
                                             {stats.totalProfit > 0 ? '+' : ''}{stats.totalProfit.toLocaleString()}
                                         </td>
                                     ))}
