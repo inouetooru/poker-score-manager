@@ -3,14 +3,27 @@ import { AdMob, type BannerAdOptions, BannerAdSize, BannerAdPosition } from '@ca
 import { Capacitor } from '@capacitor/core';
 import { AD_CONFIG } from '../config/ads';
 
-export function AdBanner() {
+type View = 'dashboard' | 'new-round' | 'players' | 'player-detail' | 'event-detail' | 'settings' | 'sessions';
+
+interface AdBannerProps {
+    currentView: View;
+}
+
+export function AdBanner({ currentView }: AdBannerProps) {
     useEffect(() => {
         console.log('AdBanner mounted, platform:', Capacitor.getPlatform());
+        console.log('Current view:', currentView);
 
         // Androidプラットフォームでのみ広告を表示
         if (Capacitor.getPlatform() === 'android') {
-            console.log('Attempting to show banner ad...');
-            showBanner();
+            // 新規ラウンド画面以外で広告を表示
+            if (currentView !== 'new-round') {
+                console.log('Attempting to show banner ad...');
+                showBanner();
+            } else {
+                console.log('New-round view: hiding banner');
+                hideBanner();
+            }
         } else {
             console.log('Not Android platform, skipping ads');
         }
@@ -21,7 +34,7 @@ export function AdBanner() {
                 hideBanner();
             }
         };
-    }, []);
+    }, [currentView]); // currentViewが変更されたら再実行
 
     const showBanner = async () => {
         try {

@@ -167,8 +167,8 @@ function AppContent() {
         </div>
       )}
 
-      {/* 広告バナー（Android端末でのみ表示） */}
-      <AdBanner />
+      {/* 広告バナー（Android端末でのみ表示、新規ラウンド画面以外） */}
+      <AdBanner currentView={currentView} />
     </div>
   );
 }
