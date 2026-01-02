@@ -8,7 +8,7 @@ import { PlayersList } from './components/PlayersList';
 import { Settings } from './components/Settings';
 import { PlayerDetail } from './components/PlayerDetail';
 import { EventDetail } from './components/EventDetail';
-import pokerHeaderImg from './assets/poker_header.png';
+import pokerHeaderImg from './assets/poker_header_wide.png';
 
 type View = 'dashboard' | 'new-round' | 'players' | 'player-detail' | 'event-detail' | 'settings' | 'sessions';
 
@@ -71,14 +71,14 @@ function AppContent() {
     <div className='min-h-screen bg-background text-foreground flex flex-col md:flex-row'>
       {/* Sidebar Navigation */}
       <aside className="w-64 bg-card border-r border-border p-4">
-        <div className="mb-8 relative rounded-lg overflow-hidden h-32">
+        <div className="mb-6 relative rounded-lg overflow-hidden h-28 shadow-md">
           <img
             src={pokerHeaderImg}
             alt="Poker Header"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <h1 className="text-xl font-bold text-white text-center px-4 leading-tight">ポーカースコア<br />管理</h1>
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <h1 className="text-xl font-bold text-white text-center px-4 tracking-wider shadow-sm">ポーカースコア管理</h1>
           </div>
         </div>
         <nav className="grid grid-cols-2 gap-3">
