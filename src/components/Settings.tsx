@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { useGame } from '../contexts/GameContext';
 import { Button } from './ui/Button';
-import { Card, CardContent, CardHeader, CardTitle, CardTitle as CardTitle2 } from './ui/Card';
-import { Download, Upload, Trash2, ArrowLeft } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
+import { Download, Upload, Trash2 } from 'lucide-react';
 import type { AppData } from '../types/definitions';
 
 export function Settings() {

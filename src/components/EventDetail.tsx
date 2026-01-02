@@ -9,7 +9,7 @@ interface EventDetailProps {
 }
 
 export function EventDetail({ eventId, onBack }: EventDetailProps) {
-    const { events, players } = useGame();
+    const { events } = useGame();
 
     const event = events.find(e => e.id === eventId);
 
@@ -109,7 +109,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-6">
-                        {event.rounds.map((round, index) => (
+                        {event.rounds.map((round) => (
                             <div key={round.id} className="border rounded-lg p-4">
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="text-lg font-semibold">ラウンド {round.roundNumber}</h3>

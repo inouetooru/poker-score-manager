@@ -1,4 +1,4 @@
-﻿import React, { createContext, useContext, type ReactNode } from 'react';
+﻿import { createContext, useContext, type ReactNode } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import type { Player, Event, Round, GameResult, AppData } from '../types/definitions';
 

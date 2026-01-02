@@ -3,7 +3,7 @@ import { useGame } from '../contexts/GameContext';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
-import { Trash2, Plus, Save, UserPlus } from 'lucide-react';
+import { Trash2, Save, UserPlus } from 'lucide-react';
 import type { GameResult } from '../types/definitions';
 import { cn } from '../lib/utils';
 
@@ -20,15 +20,9 @@ type RoundPlayer = {
   isNew?: boolean;
 };
 
-function generateId() {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
-}
 
 export function NewRound({ onCancel, onSave }: NewRoundProps) {
-  const { players, addPlayer, events, createEvent, addRoundToEvent, createEventWithRound } = useGame();
+  const { players, addPlayer, events, addRoundToEvent, createEventWithRound } = useGame();
 
   const [rate, setRate] = useState<number>(10);
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().slice(0, 10));
@@ -336,10 +330,9 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
               <div className='col-span-1'></div>
             </div>
 
-            {roundPlayers.map((p, index) => {
+            {roundPlayers.map((p) => {
               const diff = p.endChip - p.startChip;
               const profit = diff * rate;
-              const isLastPlayer = index === roundPlayers.length - 1;
               return (
                 <div key={p.id} className='grid grid-cols-12 gap-4 items-center'>
                   <div className='col-span-3 font-medium truncate' title={p.name}>{p.name}</div>

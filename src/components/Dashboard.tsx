@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useGame } from '../contexts/GameContext';
 import { Button } from './ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
@@ -6,7 +5,7 @@ import { PlusCircle, History, Trophy, TrendingUp } from 'lucide-react';
 
 interface DashboardProps {
     onNewRound: () => void;
-    onNavigate: (view: string) => void;
+    onNavigate: (view: 'new-round' | 'players' | 'settings') => void;
     onEventSelect?: (eventId: string) => void;
 }
 
@@ -41,7 +40,7 @@ export function Dashboard({ onNewRound, onNavigate, onEventSelect }: DashboardPr
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
-                <Card onClick={() => onNavigate('sessions')} className="cursor-pointer hover:bg-accent/10 transition-colors">
+                <Card className="cursor-default">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">総ラウンド数</CardTitle>
                         <History className="h-4 w-4 text-muted-foreground" />

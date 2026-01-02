@@ -1,9 +1,8 @@
 ﻿import { useState } from 'react';
-import { GameProvider, useGame } from './contexts/GameContext';
+import { GameProvider } from './contexts/GameContext';
 import { Dashboard } from './components/Dashboard';
 import { Button } from './components/ui/Button';
-import { LayoutDashboard, Users, Settings as SettingsIcon, LogOut } from 'lucide-react';
-import { cn } from './lib/utils';
+import { LayoutDashboard, Users, Settings as SettingsIcon } from 'lucide-react';
 import { NewRound } from './components/NewRound';
 import { PlayersList } from './components/PlayersList';
 import { Settings } from './components/Settings';
@@ -17,7 +16,7 @@ function AppContent() {
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
-  const { exportData } = useGame();
+
 
   const renderView = () => {
     switch (currentView) {
