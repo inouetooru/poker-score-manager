@@ -105,83 +105,56 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
             {/* Rounds Detail */}
             <Card>
                 <CardHeader>
-                    <CardTitle>ラウンド詳細</CardTitle>
+                    <CardTitle>スコア詳細</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="space-y-6">
-                        {event.rounds.map((round) => (
-                            <div key={round.id} className="border rounded-lg p-4">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h3 className="text-lg font-semibold">ラウンド {round.roundNumber}</h3>
-                                    <div className="text-sm text-muted-foreground">
-                                        倍率: {round.rate}
-                                    </div>
-                                </div>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full">
-                                        <thead>
-                                            <tr className="border-b">
-                                                <th className="text-left p-2"></th>
-                                                {round.results.map(result => (
-                                                    <th key={result.playerId} className="p-2 min-w-[3rem]">
-                                                        <div className="flex justify-center">
-                                                            <div
-                                                                style={{
-                                                                    writingMode: 'vertical-rl',
-                                                                    textOrientation: 'upright'
-                                                                }}
-                                                                className="text-sm font-medium py-2"
-                                                            >
-                                                                {result.playerName}
-                                                            </div>
-                                                        </div>
-                                                    </th>
-                                                ))}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr className="border-b">
-                                                <td className="p-2 text-sm text-muted-foreground">開始</td>
-                                                {round.results.map(result => (
-                                                    <td key={result.playerId} className="text-center p-2 text-sm">
-                                                        {result.chipStart.toLocaleString()}
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                            <tr className="border-b">
-                                                <td className="p-2 text-sm text-muted-foreground">終了</td>
-                                                {round.results.map(result => (
-                                                    <td key={result.playerId} className="text-center p-2 text-sm">
-                                                        {result.chipEnd.toLocaleString()}
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                            <tr className="border-b">
-                                                <td className="p-2 text-sm text-muted-foreground">差分</td>
-                                                {round.results.map(result => (
-                                                    <td key={result.playerId} className={`text-center p-2 text-sm ${result.chipDiff > 0 ? 'text-green-500' : result.chipDiff < 0 ? 'text-red-500' : ''}`}>
-                                                        {result.chipDiff > 0 ? '+' : ''}{result.chipDiff.toLocaleString()}
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                            <tr className="border-b last:border-0 bg-muted/30">
-                                                <td className="p-2 text-sm font-semibold">スコア</td>
-                                                {round.results.map(result => (
-                                                    <td key={result.playerId} className={`text-center p-2 font-bold ${result.score > 0 ? 'text-green-500' : result.score < 0 ? 'text-red-500' : ''}`}>
-                                                        {result.score > 0 ? '+' : ''}{result.score.toLocaleString()}
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                {round.notes && (
-                                    <div className="mt-4 text-sm text-muted-foreground">
-                                        <strong>メモ:</strong> {round.notes}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead>
+                                <tr className="border-b">
+                                    <th className="text-left p-2"></th>
+                                    {Array.from(playerStats.entries()).map(([playerId, stats]) => (
+                                        <th key={playerId} className="p-2 min-w-[3rem]">
+                                            <div className="flex justify-center">
+                                                <div
+                                                    style={{
+                                                        writingMode: 'vertical-rl',
+                                                        textOrientation: 'upright'
+                                                    }}
+                                                    className="text-sm font-medium py-2"
+                                                >
+                                                    {stats.name}
+                                                </div>
+                                            </div>
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {event.rounds.map((round) => (
+                                    <tr key={round.id} className="border-b">
+                                        <td className="p-2 text-sm text-muted-foreground">ラウンド{round.roundNumber}</td>
+                                        {Array.from(playerStats.keys()).map((playerId) => {
+                                            const result = round.results.find(r => r.playerId === playerId);
+                                            const score = result?.score || 0;
+                                            return (
+                                                <td key={playerId} className={`text-center p-2 text-sm font-medium ${score > 0 ? 'text-green-500' : score < 0 ? 'text-red-500' : ''}`}>
+                                                    {score > 0 ? '+' : ''}{score.toLocaleString()}
+                                                </td>
+                                            );
+                                        })}
+                                    </tr>
+                                ))}
+                                <tr className="border-t-2 bg-muted/30">
+                                    <td className="p-2 text-sm font-bold">合計</td>
+                                    {Array.from(playerStats.entries()).map(([playerId, stats]) => (
+                                        <td key={playerId} className={`text-center p-2 font-bold ${stats.totalProfit > 0 ? 'text-green-500' : stats.totalProfit < 0 ? 'text-red-500' : ''}`}>
+                                            {stats.totalProfit > 0 ? '+' : ''}{stats.totalProfit.toLocaleString()}
+                                        </td>
+                                    ))}
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </CardContent>
             </Card>
