@@ -25,7 +25,7 @@ export function PlayersList({ onBack, onPlayerSelect }: PlayersListProps) {
     );
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 pb-24">
             <div className="flex items-center gap-4">
                 <Button variant="outline" size="icon" onClick={onBack}>
                     <ArrowLeft className="h-4 w-4" />

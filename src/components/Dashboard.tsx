@@ -30,7 +30,7 @@ export function Dashboard({ onNewRound, onNavigate, onEventSelect }: DashboardPr
     const topPlayer = playerScores.sort((a, b) => b.score - a.score)[0];
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 pb-24">
             <div className="flex items-center justify-between">
                 <h2 className="text-3xl font-bold tracking-tight">ダッシュボード</h2>
                 <Button onClick={onNewRound} size="lg" className="bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all">
