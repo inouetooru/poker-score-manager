@@ -145,7 +145,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                                         })}
                                     </tr>
                                 ))}
-                                <tr className="border-t-4 border-primary/30 bg-muted/30">
+                                <tr className="border-t-[3px] border-gray-800 dark:border-gray-300 bg-muted/30">
                                     <td className="p-2 text-sm font-bold">合計</td>
                                     {Array.from(playerStats.entries()).map(([playerId, stats]) => (
                                         <td key={playerId} className={`text-center p-2 font-bold ${stats.totalProfit > 0 ? 'text-green-500' : stats.totalProfit < 0 ? 'text-red-500' : ''}`}>
