@@ -43,3 +43,12 @@
     color: hsl(var(--foreground));
   }
 }
+
+/* Safe area utilities for Android/iOS navigation bars */
+.pb-safe {
+  padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+}
+
+.pb-safe-large {
+  padding-bottom: calc(8rem + env(safe-area-inset-bottom, 0px));
+}
