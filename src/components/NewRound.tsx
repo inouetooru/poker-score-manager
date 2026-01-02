@@ -188,7 +188,7 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
         <CardHeader className='flex flex-row items-center justify-between'>
           <CardTitle>セッション設定</CardTitle>
         </CardHeader>
-          <CardContent className='space-y-4'>
+        <CardContent className='space-y-4'>
             <div className='grid w-full items-center gap-1.5'>
               <label htmlFor='event' className='text-sm font-medium'>イベント</label>
               <select
@@ -374,4 +374,3 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
     </div >
   );
 }
-```
