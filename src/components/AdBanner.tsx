@@ -16,14 +16,9 @@ export function AdBanner({ currentView }: AdBannerProps) {
 
         // Androidプラットフォームでのみ広告を表示
         if (Capacitor.getPlatform() === 'android') {
-            // 新規ラウンド画面以外で広告を表示
-            if (currentView !== 'new-round') {
-                console.log('Attempting to show banner ad...');
-                showBanner();
-            } else {
-                console.log('New-round view: hiding banner');
-                hideBanner();
-            }
+            // すべての画面で広告を表示
+            console.log('Attempting to show banner ad...');
+            showBanner();
         } else {
             console.log('Not Android platform, skipping ads');
         }
