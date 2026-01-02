@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
 import { Trash2, UserPlus } from 'lucide-react';
 import type { GameResult } from '../types/definitions';
 import { cn } from '../lib/utils';
+import { useInterstitialAd } from '../hooks/useInterstitialAd';
 
 interface NewRoundProps {
   onSave: () => void;
@@ -22,6 +23,7 @@ type RoundPlayer = {
 
 export function NewRound({ onSave }: NewRoundProps) {
   const { players, addPlayer, events, addRoundToEvent, createEventWithRound } = useGame();
+  const { showInterstitial } = useInterstitialAd();
 
   const [rate, setRate] = useState<number>(10);
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -178,6 +180,14 @@ export function NewRound({ onSave }: NewRoundProps) {
     } else {
       alert('イベントを選択または作成してください');
       return;
+    }
+
+    // 10%の確率でインタースティシャル広告を表示
+    const showAdProbability = Math.random();
+    console.log('Ad probability:', showAdProbability);
+    if (showAdProbability < 0.1) {
+      console.log('Showing interstitial ad after save');
+      showInterstitial();
     }
 
     onSave();
