@@ -34,7 +34,7 @@ function AppContent() {
           />
         );
       case 'new-round':
-        return <NewRound onSave={() => setCurrentView('dashboard')} />;
+        return <NewRound onSave={() => setCurrentView('dashboard')} onCancel={() => setCurrentView('dashboard')} />;
       case 'players':
         return (
           <PlayersList
@@ -127,45 +127,6 @@ function AppContent() {
           {renderView()}
         </div>
       </main>
-
-      {/* 新規ラウンド画面の保存・キャンセルボタン */}
-      {currentView === 'new-round' && (
-        <div
-          className="bg-background border-t border-border shadow-lg"
-          style={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 99999,
-            paddingBottom: `calc(1rem + env(safe-area-inset-bottom, 0px))`,
-            paddingTop: '1rem'
-          }}
-        >
-          <div className="max-w-md mx-auto flex items-center justify-between gap-4 px-4">
-            <Button
-              variant='outline'
-              size="lg"
-              onClick={() => setCurrentView('dashboard')}
-              className="h-14 px-6 border-2 font-semibold"
-            >
-              キャンセル
-            </Button>
-
-            <Button
-              size="lg"
-              onClick={() => {
-                if ((window as any).__newRoundSave) {
-                  (window as any).__newRoundSave();
-                }
-              }}
-              className="h-16 flex-1 max-w-[240px] text-xl font-bold shadow-2xl bg-primary"
-            >
-              <Save className='mr-2 h-6 w-6' /> 保存
-            </Button>
-          </div>
-        </div>
-      )}
 
       {/* 広告バナー（Android端末でのみ表示、新規ラウンド画面以外） */}
       <AdBanner currentView={currentView} />

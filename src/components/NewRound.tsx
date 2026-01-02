@@ -10,6 +10,7 @@ import { useInterstitialAd } from '../hooks/useInterstitialAd';
 
 interface NewRoundProps {
   onSave: () => void;
+  onCancel: () => void;
 }
 
 type RoundPlayer = {
@@ -21,7 +22,9 @@ type RoundPlayer = {
 };
 
 
-export function NewRound({ onSave }: NewRoundProps) {
+
+
+export function NewRound({ onSave, onCancel }: NewRoundProps) {
   const { players, addPlayer, events, addRoundToEvent, createEventWithRound } = useGame();
   const { showInterstitial } = useInterstitialAd();
 
@@ -192,14 +195,6 @@ export function NewRound({ onSave }: NewRoundProps) {
 
     onSave();
   };
-
-  // Expose handleSave globally for App.tsx button
-  useEffect(() => {
-    (window as any).__newRoundSave = handleSave;
-    return () => {
-      delete (window as any).__newRoundSave;
-    };
-  }, [handleSave]);
 
   return (
     <div className='space-y-6 pb-safe-large'>
