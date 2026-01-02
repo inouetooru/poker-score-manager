@@ -73,7 +73,7 @@ function AppContent() {
       <aside className="w-64 bg-card border-r border-border p-4">
         <div className="mb-8 relative rounded-lg overflow-hidden h-32">
           <img
-            src="/src/assets/poker_header.png"
+            src={pokerHeaderImg}
             alt="Poker Header"
             className="w-full h-full object-cover"
           />
