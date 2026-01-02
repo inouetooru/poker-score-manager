@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react';
-import { AdMob, AdOptions } from '@capacitor-community/admob';
+import { AdMob, type AdOptions } from '@capacitor-community/admob';
 import { Capacitor } from '@capacitor/core';
 import { AD_CONFIG } from '../config/ads';
 
