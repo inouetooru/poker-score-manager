@@ -106,7 +106,7 @@ export function PlayerDetail({ playerId, onBack }: PlayerDetailProps) {
                                             borderRadius: '6px'
                                         }}
                                         formatter={(value) => value ? value.toLocaleString() : '0'}
-                                        labelFormatter={(value) => new Date(value).toLocaleDateString('ja- JP')}
+                                        labelFormatter={(value) => new Date(value).toLocaleDateString('ja-JP')}
                                     />
                                     <Line
                                         type="monotone"
