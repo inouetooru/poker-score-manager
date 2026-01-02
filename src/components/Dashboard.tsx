@@ -94,14 +94,14 @@ export function Dashboard({ onNewRound, onNavigate, onEventSelect }: DashboardPr
                             <div className="space-y-4">
                                 {events.slice(0, 5).map(event => (
                                     <div key={event.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
-                                        <div>
+                                        <div className="flex-1">
                                             <p
-                                                className="font-medium text-lg cursor-pointer hover:text-primary transition-colors"
+                                                className="font-medium text-lg cursor-pointer hover:text-primary transition-colors py-2 px-3 -mx-3 rounded-md hover:bg-accent active:bg-accent/80"
                                                 onClick={() => onEventSelect?.(event.id)}
                                             >
                                                 {event.name}
                                             </p>
-                                            <p className="text-sm text-muted-foreground">
+                                            <p className="text-sm text-muted-foreground px-3">
                                                 {new Date(event.date).toLocaleDateString()} - レート: {event.rate}, ラウンド: {event.rounds.length}
                                             </p>
                                         </div>

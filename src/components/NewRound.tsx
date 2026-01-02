@@ -183,28 +183,17 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
   };
 
   return (
-    <div className='space-y-6'>
-      <div className='flex items-center justify-between'>
-        <h2 className='text-3xl font-bold tracking-tight'>新規ラウンド</h2>
-        <div className='space-x-2'>
-          <Button variant='outline' onClick={onCancel}>キャンセル</Button>
-          <Button onClick={handleSave}>
-            <Save className='mr-2 h-4 w-4' /> ラウンドを保存
-          </Button>
-        </div>
-      </div>
-
-      <div className='grid gap-6 md:grid-cols-2'>
-        <Card>
-          <CardHeader>
-            <CardTitle>セッション設定</CardTitle>
-          </CardHeader>
+    <div className='space-y-6 pb-24'>
+      <Card>
+        <CardHeader className='flex flex-row items-center justify-between'>
+          <CardTitle>セッション設定</CardTitle>
+        </CardHeader>
           <CardContent className='space-y-4'>
             <div className='grid w-full items-center gap-1.5'>
               <label htmlFor='event' className='text-sm font-medium'>イベント</label>
               <select
                 id='event'
-                className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
+                className='flex h-12 w-full rounded-md border border-input bg-background px-4 py-3 text-base'
                 value={selectedEventId}
                 onChange={e => {
                   setSelectedEventId(e.target.value);
@@ -370,6 +359,18 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
           </div>
         </CardContent>
       </Card>
+
+      {/* Fixed bottom action bar */ }
+  <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 shadow-lg z-10">
+    <div className="max-w-7xl mx-auto flex gap-3 justify-end">
+      <Button variant='outline' size="lg" onClick={onCancel} className="flex-1 sm:flex-none">
+        キャンセル
+      </Button>
+      <Button size="lg" onClick={handleSave} className="flex-1 sm:flex-none">
+        <Save className='mr-2 h-5 w-5' /> 保存
+      </Button>
     </div>
+  </div>
+    </div >
   );
 }
