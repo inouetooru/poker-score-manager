@@ -131,7 +131,14 @@ function AppContent() {
       {currentView === 'new-round' && (
         <div
           className="bg-white dark:bg-gray-900 border-t-2 border-gray-300 p-4 shadow-2xl"
-          style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 99999 }}
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 99999,
+            paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))'
+          }}
         >
           <div className="max-w-md mx-auto flex items-center justify-between gap-4">
             <Button
