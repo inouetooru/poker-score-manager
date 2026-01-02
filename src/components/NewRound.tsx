@@ -359,17 +359,19 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
             )}
           </div>
         </CardContent>
-        {/* Fixed bottom action bar */}
-        <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 shadow-lg z-10">
-          <div className="max-w-7xl mx-auto flex gap-3 justify-end">
-            <Button variant='outline' size="lg" onClick={onCancel} className="flex-1 sm:flex-none">
-              キャンセル
-            </Button>
-            <Button size="lg" onClick={handleSave} className="flex-1 sm:flex-none">
-              <Save className='mr-2 h-5 w-5' /> 保存
-            </Button>
-          </div>
+      </Card>
+
+      {/* Fixed bottom action bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 shadow-lg z-10">
+        <div className="max-w-7xl mx-auto flex gap-3 justify-end">
+          <Button variant='outline' size="lg" onClick={onCancel} className="flex-1 sm:flex-none">
+            キャンセル
+          </Button>
+          <Button size="lg" onClick={handleSave} className="flex-1 sm:flex-none">
+            <Save className='mr-2 h-5 w-5' /> 保存
+          </Button>
         </div>
+      </div>
     </div>
   );
 
