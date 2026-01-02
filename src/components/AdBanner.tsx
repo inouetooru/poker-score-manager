@@ -16,9 +16,16 @@ export function AdBanner({ currentView }: AdBannerProps) {
 
         // Androidプラットフォームでのみ広告を表示
         if (Capacitor.getPlatform() === 'android') {
-            // すべての画面で広告を表示
-            console.log('Attempting to show banner ad...');
-            showBanner();
+            // 85%の確率で広告を表示
+            const showBannerProbability = Math.random();
+            console.log('Banner ad probability:', showBannerProbability);
+
+            if (showBannerProbability < 0.85) {
+                console.log('Attempting to show banner ad...');
+                showBanner();
+            } else {
+                console.log('Banner ad not shown (15% probability)');
+            }
         } else {
             console.log('Not Android platform, skipping ads');
         }
