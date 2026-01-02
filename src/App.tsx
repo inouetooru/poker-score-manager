@@ -130,8 +130,8 @@ function AppContent() {
       {/* Global bottom action bar - visible only on new-round view */}
       {currentView === 'new-round' && (
         <div
-          className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t-2 border-gray-300 p-4 shadow-2xl"
-          style={{ zIndex: 99999 }}
+          className="bg-white dark:bg-gray-900 border-t-2 border-gray-300 p-4 shadow-2xl"
+          style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 99999 }}
         >
           <div className="max-w-md mx-auto flex items-center justify-between gap-4">
             <Button
