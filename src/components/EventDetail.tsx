@@ -43,7 +43,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
     });
 
     return (
-        <div className="space-y-6 pb-24">
+        <div className="space-y-6 pb-safe">
             <div className="flex items-center gap-4">
                 <Button variant="outline" size="icon" onClick={onBack}>
                     <ArrowLeft className="h-4 w-4" />

@@ -192,7 +192,7 @@ export function NewRound({ onSave }: NewRoundProps) {
   }, [handleSave]);
 
   return (
-    <div className='space-y-6 pb-32'>
+    <div className='space-y-6 pb-safe-large'>
       <Card>
         <CardHeader className='flex flex-row items-center justify-between'>
           <CardTitle>セッション設定</CardTitle>
