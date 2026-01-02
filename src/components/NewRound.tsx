@@ -3,12 +3,11 @@ import { useGame } from '../contexts/GameContext';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
-import { Trash2, Save, UserPlus } from 'lucide-react';
+import { Trash2, UserPlus } from 'lucide-react';
 import type { GameResult } from '../types/definitions';
 import { cn } from '../lib/utils';
 
 interface NewRoundProps {
-  onCancel: () => void;
   onSave: () => void;
 }
 
@@ -21,7 +20,7 @@ type RoundPlayer = {
 };
 
 
-export function NewRound({ onCancel, onSave }: NewRoundProps) {
+export function NewRound({ onSave }: NewRoundProps) {
   const { players, addPlayer, events, addRoundToEvent, createEventWithRound } = useGame();
 
   const [rate, setRate] = useState<number>(10);

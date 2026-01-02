@@ -146,9 +146,10 @@ function AppContent() {
             <Button
               size="lg"
               onClick={() => {
-                // The save handler should be triggered here
-                // For now, just go back to dashboard - will be improved
-                setCurrentView('dashboard');
+                // Call the exposed save handler from NewRound component
+                if ((window as any).__newRoundSave) {
+                  (window as any).__newRoundSave();
+                }
               }}
               className="h-16 flex-1 max-w-[240px] text-xl font-bold shadow-2xl bg-primary"
             >
