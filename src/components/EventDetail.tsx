@@ -92,7 +92,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                                     <div className="font-medium">{stats.name}</div>
                                     <div className="flex items-center gap-4">
                                         <div className="text-sm text-muted-foreground">{stats.rounds} ラウンド</div>
-                                        <div className={stats.totalProfit > 0 ? "text-green-500 font-bold" : stats.totalProfit < 0 ? "text-red-500 font-bold" : "text-muted-foreground"}>
+                                        <div className={stats.totalProfit > 0 ? "text-green-400 font-bold" : stats.totalProfit < 0 ? "text-red-500 font-bold" : "text-muted-foreground"}>
                                             {stats.totalProfit > 0 ? '+' : ''}{stats.totalProfit.toLocaleString()}
                                         </div>
                                     </div>
@@ -145,7 +145,14 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                                         })}
                                     </tr>
                                 ))}
-                                <tr className="border-t-[3px] border-gray-800 dark:border-gray-300 bg-muted/30">
+                                {/* 区切り線 */}
+                                <tr>
+                                    <td colSpan={playerStats.size + 1} className="p-0">
+                                        <div className="border-t-2 border-gray-400 dark:border-gray-500"></div>
+                                    </td>
+                                </tr>
+                                {/* 合計行 */}
+                                <tr className="bg-muted/50">
                                     <td className="p-2 text-sm font-bold">合計</td>
                                     {Array.from(playerStats.entries()).map(([playerId, stats]) => (
                                         <td key={playerId} className={`text-center p-2 font-bold ${stats.totalProfit > 0 ? 'text-green-500' : stats.totalProfit < 0 ? 'text-red-500' : ''}`}>
