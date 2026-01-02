@@ -96,7 +96,7 @@ export function Dashboard({ onNewRound, onNavigate, onEventSelect }: DashboardPr
                                     <div key={event.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                                         <div className="flex-1">
                                             <p
-                                                className="font-medium text-lg cursor-pointer hover:text-primary transition-colors py-2 px-3 -mx-3 rounded-md hover:bg-accent active:bg-accent/80"
+                                                className="font-medium text-lg cursor-pointer hover:text-primary transition-colors py-2 px-3 -mx-3 rounded-md hover:bg-accent active:bg-accent/80 underline"
                                                 onClick={() => onEventSelect?.(event.id)}
                                             >
                                                 {event.name}

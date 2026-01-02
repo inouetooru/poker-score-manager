@@ -69,44 +69,47 @@ function AppContent() {
   return (
     <div className='min-h-screen bg-background text-foreground flex flex-col md:flex-row'>
       {/* Sidebar Navigation */}
-      <aside className='w-full md:w-64 border-r bg-card p-4 flex flex-col gap-4'>
-        <div className='flex items-center gap-2 px-2 py-4'>
-          <div className='h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg'></div>
-          <h1 className='text-xl font-bold tracking-tight'>ポーカー管理</h1>
+      <aside className="w-64 bg-card border-r border-border p-4">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold">ポーカースコア管理</h1>
         </div>
-
-        <nav className='space-y-1'>
+        <nav className="grid grid-cols-2 gap-3">
           <Button
-            variant={currentView === 'dashboard' ? 'secondary' : 'ghost'}
-            className='w-full justify-start'
+            variant={currentView === 'dashboard' ? 'default' : 'ghost'}
+            className="w-full justify-start h-20 flex-col gap-1"
             onClick={() => setCurrentView('dashboard')}
           >
-            <LayoutDashboard className='mr-2 h-4 w-4' />
-            ダッシュボード
+            <Home className="h-5 w-5" />
+            <span className="text-xs">ダッシュボード</span>
           </Button>
           <Button
-            variant={currentView === 'players' ? 'secondary' : 'ghost'}
-            className='w-full justify-start'
-            onClick={() => setCurrentView('players')}
+            variant={currentView === 'new-round' ? 'default' : 'ghost'}
+            className="w-full justify-start h-20 flex-col gap-1"
+            onClick={() => setCurrentView('new-round')}
           >
-            <Users className='mr-2 h-4 w-4' />
-            プレイヤー
+            <PlusCircle className="h-5 w-5" />
+            <span className="text-xs">新規ラウンド</span>
           </Button>
           <Button
-            variant={currentView === 'settings' ? 'secondary' : 'ghost'}
-            className='w-full justify-start'
+            variant={currentView === 'players' ? 'default' : 'ghost'}
+            className="w-full justify-start h-20 flex-col gap-1"
+            onClick={() => {
+              setCurrentView('players');
+              setSelectedPlayerId(null);
+            }}
+          >
+            <Users className="h-5 w-5" />
+            <span className="text-xs">プレイヤー</span>
+          </Button>
+          <Button
+            variant={currentView === 'settings' ? 'default' : 'ghost'}
+            className="w-full justify-start h-20 flex-col gap-1"
             onClick={() => setCurrentView('settings')}
           >
-            <SettingsIcon className='mr-2 h-4 w-4' />
-            設定
+            <SettingsIcon className="h-5 w-5" />
+            <span className="text-xs">設定</span>
           </Button>
         </nav>
-
-        <div className='mt-auto pt-4 border-t'>
-          <div className='text-xs text-muted-foreground px-2'>
-            v1.0.0
-          </div>
-        </div>
       </aside>
 
       {/* Main Content */}
