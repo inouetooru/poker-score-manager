@@ -363,13 +363,19 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
 
       {/* Fixed bottom action bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 shadow-lg z-10">
-        <div className="max-w-7xl mx-auto relative flex items-center justify-center w-full">
-          <Button variant='outline' size="lg" onClick={onCancel} className="absolute left-4 h-14">
-            キャンセル
-          </Button>
-          <Button size="lg" onClick={handleSave} className="h-20 text-xl px-16 shadow-xl">
-            <Save className='mr-2 h-6 w-6' /> 保存
-          </Button>
+        <div className="max-w-md mx-auto grid grid-cols-[80px_1fr_80px] gap-2 items-center">
+          <div className="flex justify-start">
+            <Button variant='outline' size="sm" onClick={onCancel} className="h-12 w-full px-0">
+              キャンセル
+            </Button>
+          </div>
+          <div className="flex justify-center w-full">
+            <Button size="lg" onClick={handleSave} className="h-16 w-full text-lg shadow-xl">
+              <Save className='mr-2 h-6 w-6' /> 保存
+            </Button>
+          </div>
+          {/* Spacer to balance the layout for true centering */}
+          <div></div>
         </div>
       </div>
     </div>
