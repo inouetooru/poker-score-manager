@@ -45,7 +45,7 @@ export function PlayerDetail({ playerId, onBack }: PlayerDetailProps) {
             <div className="grid gap-4 md:grid-cols-3">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">総利益</CardTitle>
+                        <CardTitle className="text-sm font-medium">総スコア</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className={`text-2xl font-bold ${playerData.totalProfit > 0 ? 'text-green-500' : playerData.totalProfit < 0 ? 'text-red-500' : ''}`}>
@@ -65,7 +65,7 @@ export function PlayerDetail({ playerId, onBack }: PlayerDetailProps) {
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">平均利益</CardTitle>
+                        <CardTitle className="text-sm font-medium">平均スコア</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className={`text-2xl font-bold ${Number(averageProfit) > 0 ? 'text-green-500' : Number(averageProfit) < 0 ? 'text-red-500' : ''}`}>
@@ -79,7 +79,7 @@ export function PlayerDetail({ playerId, onBack }: PlayerDetailProps) {
                 <>
                     <Card>
                         <CardHeader>
-                            <CardTitle>累積利益推移</CardTitle>
+                            <CardTitle>累積スコア推移</CardTitle>
                         </CardHeader>
                         <CardContent className="h-[300px]">
                             <ResponsiveContainer width="100%" height="100%">
@@ -100,21 +100,21 @@ export function PlayerDetail({ playerId, onBack }: PlayerDetailProps) {
                                         axisLine={false}
                                     />
                                     <Tooltip
-                                        cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1 }}
                                         contentStyle={{
-                                            backgroundColor: 'hsl(var(--card))',
+                                            backgroundColor: 'hsl(var(--background))',
                                             border: '1px solid hsl(var(--border))',
                                             borderRadius: '6px'
                                         }}
-                                        labelFormatter={(value) => new Date(value).toLocaleDateString('ja-JP')}
+                                        formatter={(value) => value ? value.toLocaleString() : '0'}
+                                        labelFormatter={(value) => new Date(value).toLocaleDateString('ja- JP')}
                                     />
                                     <Line
                                         type="monotone"
-                                        dataKey="cumulativeProfit"
+                                        dataKey="cumulativeScore"
                                         stroke="hsl(var(--primary))"
                                         strokeWidth={2}
                                         dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
-                                        name="累積利益"
+                                        name="累積スコア"
                                     />
                                 </LineChart>
                             </ResponsiveContainer>
@@ -123,7 +123,7 @@ export function PlayerDetail({ playerId, onBack }: PlayerDetailProps) {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>各ゲームの利益</CardTitle>
+                            <CardTitle>各ゲームのスコア</CardTitle>
                         </CardHeader>
                         <CardContent className="h-[300px]">
                             <ResponsiveContainer width="100%" height="100%">
@@ -153,10 +153,10 @@ export function PlayerDetail({ playerId, onBack }: PlayerDetailProps) {
                                         labelFormatter={(value) => new Date(value).toLocaleDateString('ja-JP')}
                                     />
                                     <Bar
-                                        dataKey="profit"
+                                        dataKey="score"
                                         fill="hsl(var(--primary))"
                                         radius={[4, 4, 0, 0]}
-                                        name="利益"
+                                        name="スコア"
                                     />
                                 </BarChart>
                             </ResponsiveContainer>

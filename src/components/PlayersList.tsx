@@ -46,7 +46,7 @@ export function PlayersList({ onBack, onPlayerSelect }: PlayersListProps) {
             {/* Charts Area */}
             <Card>
                 <CardHeader>
-                    <CardTitle>利益ランキング (トップ10)</CardTitle>
+                    <CardTitle>スコアランキング (トップ10)</CardTitle>
                 </CardHeader>
                 <CardContent className="h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">

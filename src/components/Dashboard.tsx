@@ -15,19 +15,19 @@ export function Dashboard({ onNewRound, onNavigate, onEventSelect }: DashboardPr
     // Simple stats - count total rounds across all events
     const totalRounds = events.reduce((acc, event) => acc + event.rounds.length, 0);
 
-    // Calculate top profit player
-    const playerProfits = players.map(player => {
-        let profit = 0;
+    // Calculate top score player
+    const playerScores = players.map(player => {
+        let score = 0;
         events.forEach(event => {
             event.rounds.forEach(round => {
                 const res = round.results.find(r => r.playerId === player.id);
-                if (res) profit += res.profit;
+                if (res) score += res.score;
             });
         });
-        return { ...player, profit };
+        return { ...player, score };
     });
 
-    const topPlayer = playerProfits.sort((a, b) => b.profit - a.profit)[0];
+    const topPlayer = playerScores.sort((a, b) => b.score - a.score)[0];
 
     return (
         <div className="space-y-6">
@@ -61,7 +61,7 @@ export function Dashboard({ onNewRound, onNavigate, onEventSelect }: DashboardPr
                     <CardContent>
                         <div className="text-2xl font-bold">{topPlayer ? topPlayer.name : "—"}</div>
                         <p className="text-xs text-muted-foreground">
-                            {topPlayer ? `${topPlayer.profit > 0 ? '+' : ''}${topPlayer.profit}` : "データなし"}
+                            {topPlayer ? `${topPlayer.score > 0 ? '+' : ''}${topPlayer.score}` : "データなし"}
                         </p>
                     </CardContent>
                 </Card>

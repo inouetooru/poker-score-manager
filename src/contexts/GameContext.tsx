@@ -13,7 +13,7 @@ interface GameContextType {
   addRoundToEvent: (eventId: string, results: GameResult[], roundRate: number, notes?: string) => void;
   deleteEvent: (id: string) => void;
   getPlayerData: (playerId: string) => { totalProfit: number; gamesPlayed: number; averageRank?: number };
-  getPlayerHistory: (playerId: string) => { date: string; profit: number; cumulativeProfit: number }[];
+  getPlayerHistory: (playerId: string) => { date: string; score: number; cumulativeScore: number }[];
   importData: (data: AppData) => void;
   exportData: () => string;
 }
@@ -123,7 +123,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
       event.rounds.forEach(round => {
         const result = round.results.find((r: GameResult) => r.playerId === playerId);
         if (result) {
-          totalProfit += result.profit;
+          totalProfit += result.score;
           gamesPlayed++;
         }
       });
@@ -133,8 +133,8 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getPlayerHistory = (playerId: string) => {
-    const history: { date: string; profit: number; cumulativeProfit: number }[] = [];
-    let cumulativeProfit = 0;
+    const history: { date: string; score: number; cumulativeScore: number }[] = [];
+    let cumulativeScore = 0;
 
     // Flatten all rounds with their event dates
     const allRounds: { date: string; round: Round }[] = [];
@@ -150,13 +150,13 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     allRounds.forEach(({ date, round }) => {
       const result = round.results.find((r: GameResult) => r.playerId === playerId);
       if (result) {
-        // Use round.rate to recalculate profit if needed
-        const actualProfit = (result.chipEnd - result.chipStart) * round.rate;
-        cumulativeProfit += actualProfit;
+        // Use round.rate to recalculate score if needed
+        const actualScore = (result.chipEnd - result.chipStart) * round.rate;
+        cumulativeScore += actualScore;
         history.push({
           date,
-          profit: actualProfit,
-          cumulativeProfit,
+          score: actualScore,
+          cumulativeScore,
         });
       }
     });

@@ -157,7 +157,7 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
         chipStart: rp.startChip,
         chipEnd: rp.endChip,
         chipDiff: diff,
-        profit: diff * rate
+        score: diff * rate
       };
     });
 
@@ -257,7 +257,7 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
               />
             </div>
             <div className='grid w-full items-center gap-1.5'>
-              <label htmlFor='rate' className='text-sm font-medium'>レート (円/ポイント)</label>
+              <label htmlFor='rate' className='text-sm font-medium'>倍率</label>
               <Input
                 id='rate'
                 type='number'
@@ -326,13 +326,13 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
               <div className='col-span-3'>名前</div>
               <div className='col-span-3'>開始</div>
               <div className='col-span-3'>終了</div>
-              <div className='col-span-2'>利益</div>
+              <div className='col-span-2'>スコア</div>
               <div className='col-span-1'></div>
             </div>
 
             {roundPlayers.map((p) => {
               const diff = p.endChip - p.startChip;
-              const profit = diff * rate;
+              const score = diff * rate;
               return (
                 <div key={p.id} className='grid grid-cols-12 gap-4 items-center'>
                   <div className='col-span-3 font-medium truncate' title={p.name}>{p.name}</div>
@@ -350,8 +350,8 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
                       onChange={e => updatePlayerScore(p.id, 'endChip', e.target.value)}
                     />
                   </div>
-                  <div className={cn('col-span-2 font-mono text-right', profit > 0 ? 'text-green-500' : profit < 0 ? 'text-red-500' : '')}>
-                    {profit > 0 ? '+' : ''}{profit.toLocaleString()}
+                  <div className={cn('col-span-2 font-mono text-right', score > 0 ? 'text-green-500' : score < 0 ? 'text-red-500' : '')}>
+                    {score > 0 ? '+' : ''}{score.toLocaleString()}
                   </div>
                   <div className='col-span-1 text-right'>
                     <Button variant='ghost' size='icon' onClick={() => removePlayer(p.id)}>

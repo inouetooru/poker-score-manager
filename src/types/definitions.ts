@@ -10,7 +10,7 @@ export interface GameResult {
     chipStart: number;
     chipEnd: number;
     chipDiff: number;
-    profit: number;
+    score: number;
 }
 
 export interface Round {

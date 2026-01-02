@@ -36,7 +36,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                 totalProfit: 0,
                 rounds: 0
             };
-            stats.totalProfit += result.profit;
+            stats.totalProfit += result.score;
             stats.rounds += 1;
             playerStats.set(result.playerId, stats);
         });
@@ -114,7 +114,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="text-lg font-semibold">ラウンド {round.roundNumber}</h3>
                                     <div className="text-sm text-muted-foreground">
-                                        レート: {round.rate}円/ポイント
+                                        倍率: {round.rate}
                                     </div>
                                 </div>
                                 <div className="overflow-x-auto">
@@ -125,7 +125,7 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                                                 <th className="text-right p-2">開始</th>
                                                 <th className="text-right p-2">終了</th>
                                                 <th className="text-right p-2">差分</th>
-                                                <th className="text-right p-2">利益</th>
+                                                <th className="text-right p-2">スコア</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -137,8 +137,8 @@ export function EventDetail({ eventId, onBack }: EventDetailProps) {
                                                     <td className={`text-right p-2 ${result.chipDiff > 0 ? 'text-green-500' : result.chipDiff < 0 ? 'text-red-500' : ''}`}>
                                                         {result.chipDiff > 0 ? '+' : ''}{result.chipDiff.toLocaleString()}
                                                     </td>
-                                                    <td className={`text-right p-2 font-bold ${result.profit > 0 ? 'text-green-500' : result.profit < 0 ? 'text-red-500' : ''}`}>
-                                                        {result.profit > 0 ? '+' : ''}{result.profit.toLocaleString()}
+                                                    <td className={`text-right p-2 font-bold ${result.score > 0 ? 'text-green-500' : result.score < 0 ? 'text-red-500' : ''}`}>
+                                                        {result.score > 0 ? '+' : ''}{result.score.toLocaleString()}
                                                     </td>
                                                 </tr>
                                             ))}
