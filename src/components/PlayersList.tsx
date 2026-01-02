@@ -98,22 +98,9 @@ export function PlayersList({ onBack, onPlayerSelect }: PlayersListProps) {
                                                 <Trash2 className="h-4 w-4 text-destructive" />
                                             </Button>
                                         </div>
-                                        <div className="text-xs text-muted-foreground">{p.gamesPlayed} ゲーム</div>
-                                    </div>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            if (confirm(`${p.name}を削除しますか？`)) {
-                                                deletePlayer(p.id);
-                                            }
-                                        }}
-                                    >
-                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                    </Button>
-                                </div>
-                            </div>
+                                    </CardTitle>
+                                </CardHeader>
+                            </Card>
                         ))}
                     </div>
                 </CardContent>
