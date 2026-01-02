@@ -182,195 +182,194 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
     onSave();
   };
 
-  return (
-    <div className='space-y-6 pb-24'>
-      <Card>
-        <CardHeader className='flex flex-row items-center justify-between'>
-          <CardTitle>セッション設定</CardTitle>
-        </CardHeader>
-        <CardContent className='space-y-4'>
+return (
+  <div className='space-y-6 pb-24'>
+    <Card>
+      <CardHeader className='flex flex-row items-center justify-between'>
+        <CardTitle>セッション設定</CardTitle>
+      </CardHeader>
+      <CardContent className='space-y-4'>
+        <div className='grid w-full items-center gap-1.5'>
+          <label htmlFor='event' className='text-sm font-medium'>イベント</label>
+          <select
+            id='event'
+            className='flex h-12 w-full rounded-md border border-input bg-background px-4 py-3 text-base'
+            value={selectedEventId}
+            onChange={e => {
+              setSelectedEventId(e.target.value);
+              if (e.target.value) {
+                const event = events.find(ev => ev.id === e.target.value);
+                if (event) {
+                  setRate(event.rate);
+                  setEventLocation(event.location || '');
+                }
+              }
+            }}
+          >
+            <option value="">新しいイベントを作成</option>
+            {events.map(event => (
+              <option key={event.id} value={event.id}>
+                {event.name} (ラウンド {event.rounds.length + 1})
+              </option>
+            ))}
+          </select>
+        </div>
+        {!selectedEventId && (
+          <>
             <div className='grid w-full items-center gap-1.5'>
-              <label htmlFor='event' className='text-sm font-medium'>イベント</label>
-              <select
-                id='event'
-                className='flex h-12 w-full rounded-md border border-input bg-background px-4 py-3 text-base'
-                value={selectedEventId}
-                onChange={e => {
-                  setSelectedEventId(e.target.value);
-                  if (e.target.value) {
-                    const event = events.find(ev => ev.id === e.target.value);
-                    if (event) {
-                      setRate(event.rate);
-                      setEventLocation(event.location || '');
-                    }
-                  }
-                }}
+              <label htmlFor='eventName' className='text-sm font-medium'>イベント名</label>
+              <Input
+                id='eventName'
+                value={newEventName}
+                onChange={e => setNewEventName(e.target.value)}
+                placeholder='例: 月例ポーカー大会'
+              />
+            </div>
+            <div className='grid w-full items-center gap-1.5'>
+              <label htmlFor='location' className='text-sm font-medium'>場所（任意）</label>
+              <Input
+                id='location'
+                value={eventLocation}
+                onChange={e => setEventLocation(e.target.value)}
+                placeholder='例: 自宅'
+              />
+            </div>
+          </>
+        )}
+        <div className='grid w-full items-center gap-1.5'>
+          <label htmlFor='date' className='text-sm font-medium'>日時</label>
+          <Input
+            id='date'
+            type='date'
+            value={selectedDate}
+            onChange={e => setSelectedDate(e.target.value)}
+          />
+        </div>
+        <div className='grid w-full items-center gap-1.5'>
+          <label htmlFor='rate' className='text-sm font-medium'>倍率</label>
+          <Input
+            id='rate'
+            type='number'
+            value={rate}
+            onChange={e => setRate(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className='grid w-full items-center gap-1.5'>
+          <label htmlFor='bulkStartChip' className='text-sm font-medium'>開始チップ数（一括）</label>
+          <Input
+            id='bulkStartChip'
+            type='number'
+            value={bulkStartChip}
+            onChange={e => handleBulkStartChipChange(e.target.value)}
+          />
+        </div>
+      </CardContent>
+    </Card>
+
+    <Card>
+      <CardHeader>
+        <CardTitle>プレイヤー追加</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className='flex space-x-2'>
+          <Input
+            placeholder='プレイヤー名'
+            value={newPlayerName}
+            onChange={e => setNewPlayerName(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleAddPlayer(newPlayerName)}
+          />
+          <Button onClick={() => handleAddPlayer(newPlayerName)}>
+            <UserPlus className='h-4 w-4' />
+          </Button>
+        </div>
+        <div className='mt-4 flex flex-wrap gap-2'>
+          {players.map(p => {
+            const isSelected = roundPlayers.some(rp => rp.name === p.name);
+            if (isSelected) return null;
+            return (
+              <Button
+                key={p.id}
+                variant='secondary'
+                size='sm'
+                onClick={() => handleAddPlayer(p.name)}
               >
-                <option value="">新しいイベントを作成</option>
-                {events.map(event => (
-                  <option key={event.id} value={event.id}>
-                    {event.name} (ラウンド {event.rounds.length + 1})
-                  </option>
-                ))}
-              </select>
-            </div>
-            {!selectedEventId && (
-              <>
-                <div className='grid w-full items-center gap-1.5'>
-                  <label htmlFor='eventName' className='text-sm font-medium'>イベント名</label>
-                  <Input
-                    id='eventName'
-                    value={newEventName}
-                    onChange={e => setNewEventName(e.target.value)}
-                    placeholder='例: 月例ポーカー大会'
-                  />
-                </div>
-                <div className='grid w-full items-center gap-1.5'>
-                  <label htmlFor='location' className='text-sm font-medium'>場所（任意）</label>
-                  <Input
-                    id='location'
-                    value={eventLocation}
-                    onChange={e => setEventLocation(e.target.value)}
-                    placeholder='例: 自宅'
-                  />
-                </div>
-              </>
-            )}
-            <div className='grid w-full items-center gap-1.5'>
-              <label htmlFor='date' className='text-sm font-medium'>日時</label>
-              <Input
-                id='date'
-                type='date'
-                value={selectedDate}
-                onChange={e => setSelectedDate(e.target.value)}
-              />
-            </div>
-            <div className='grid w-full items-center gap-1.5'>
-              <label htmlFor='rate' className='text-sm font-medium'>倍率</label>
-              <Input
-                id='rate'
-                type='number'
-                value={rate}
-                onChange={e => setRate(parseFloat(e.target.value))}
-              />
-            </div>
-            <div className='grid w-full items-center gap-1.5'>
-              <label htmlFor='bulkStartChip' className='text-sm font-medium'>開始チップ数（一括）</label>
-              <Input
-                id='bulkStartChip'
-                type='number'
-                value={bulkStartChip}
-                onChange={e => handleBulkStartChipChange(e.target.value)}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>プレイヤー追加</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className='flex space-x-2'>
-              <Input
-                placeholder='プレイヤー名'
-                value={newPlayerName}
-                onChange={e => setNewPlayerName(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleAddPlayer(newPlayerName)}
-              />
-              <Button onClick={() => handleAddPlayer(newPlayerName)}>
-                <UserPlus className='h-4 w-4' />
+                {p.name}
               </Button>
-            </div>
-            <div className='mt-4 flex flex-wrap gap-2'>
-              {players.map(p => {
-                const isSelected = roundPlayers.some(rp => rp.name === p.name);
-                if (isSelected) return null;
-                return (
-                  <Button
-                    key={p.id}
-                    variant='secondary'
-                    size='sm'
-                    onClick={() => handleAddPlayer(p.name)}
-                  >
-                    {p.name}
-                  </Button>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            );
+          })}
+        </div>
+      </CardContent>
+    </Card>
 
-      <Card>
-        <CardHeader className='flex flex-row items-center justify-between'>
-          <CardTitle>スコア</CardTitle>
-          <div className={totalChipDiff === 0 ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}>
-            チェックサム: {totalChipDiff > 0 ? '+' : ''}{totalChipDiff}
+    <Card>
+      <CardHeader className='flex flex-row items-center justify-between'>
+        <CardTitle>スコア</CardTitle>
+        <div className={totalChipDiff === 0 ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}>
+          チェックサム: {totalChipDiff > 0 ? '+' : ''}{totalChipDiff}
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className='space-y-4'>
+          <div className='grid grid-cols-12 gap-4 font-medium text-sm text-muted-foreground mb-2 px-2'>
+            <div className='col-span-3'>名前</div>
+            <div className='col-span-3'>開始</div>
+            <div className='col-span-3'>終了</div>
+            <div className='col-span-2'>スコア</div>
+            <div className='col-span-1'></div>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className='space-y-4'>
-            <div className='grid grid-cols-12 gap-4 font-medium text-sm text-muted-foreground mb-2 px-2'>
-              <div className='col-span-3'>名前</div>
-              <div className='col-span-3'>開始</div>
-              <div className='col-span-3'>終了</div>
-              <div className='col-span-2'>スコア</div>
-              <div className='col-span-1'></div>
-            </div>
 
-            {roundPlayers.map((p) => {
-              const diff = p.endChip - p.startChip;
-              const score = diff * rate;
-              return (
-                <div key={p.id} className='grid grid-cols-12 gap-4 items-center'>
-                  <div className='col-span-3 font-medium truncate' title={p.name}>{p.name}</div>
-                  <div className='col-span-3'>
-                    <Input
-                      type='number'
-                      value={p.startChip}
-                      onChange={e => updatePlayerScore(p.id, 'startChip', e.target.value)}
-                    />
-                  </div>
-                  <div className='col-span-3'>
-                    <Input
-                      type='number'
-                      value={p.endChip}
-                      onChange={e => updatePlayerScore(p.id, 'endChip', e.target.value)}
-                    />
-                  </div>
-                  <div className={cn('col-span-2 font-mono text-right', score > 0 ? 'text-green-500' : score < 0 ? 'text-red-500' : '')}>
-                    {score > 0 ? '+' : ''}{score.toLocaleString()}
-                  </div>
-                  <div className='col-span-1 text-right'>
-                    <Button variant='ghost' size='icon' onClick={() => removePlayer(p.id)}>
-                      <Trash2 className='h-4 w-4 text-destructive' />
+          {roundPlayers.map((p) => {
+            const diff = p.endChip - p.startChip;
+            const score = diff * rate;
+            return (
+              <div key={p.id} className='grid grid-cols-12 gap-4 items-center'>
+                <div className='col-span-3 font-medium truncate' title={p.name}>{p.name}</div>
+                <div className='col-span-3'>
+                  <Input
+                    type='number'
+                    value={p.startChip}
+                    onChange={e => updatePlayerScore(p.id, 'startChip', e.target.value)}
+                  />
+                </div>
+                <div className='col-span-3'>
+                  <Input
+                    type='number'
+                    value={p.endChip}
+                    onChange={e => updatePlayerScore(p.id, 'endChip', e.target.value)}
+                  />
+                </div>
+                <div className={cn('col-span-2 font-mono text-right', score > 0 ? 'text-green-500' : score < 0 ? 'text-red-500' : '')}>
+                  {score > 0 ? '+' : ''}{score.toLocaleString()}
+                </div>
+                <div className='col-span-1 text-right'>
+                  <Button variant='ghost' size='icon' onClick={() => removePlayer(p.id)}>
+                    <Trash2 className='h-4 w-4 text-destructive' />
+                  </Button>
+                </div>
+                {/* Fixed bottom action bar */ }
+                <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 shadow-lg z-10">
+                  <div className="max-w-7xl mx-auto flex gap-3 justify-end">
+                    <Button variant='outline' size="lg" onClick={onCancel} className="flex-1 sm:flex-none">
+                      キャンセル
+                    </Button>
+                    <Button size="lg" onClick={handleSave} className="flex-1 sm:flex-none">
+                      <Save className='mr-2 h-5 w-5' /> 保存
                     </Button>
                   </div>
                 </div>
-              );
-            })}
-
-            {roundPlayers.length === 0 && (
-              <div className='text-center py-8 text-muted-foreground'>
-                プレイヤーを追加してスコアの記録を開始してください。
               </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+            );
+          })}
 
-      {/* Fixed bottom action bar */ }
-  <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 shadow-lg z-10">
-    <div className="max-w-7xl mx-auto flex gap-3 justify-end">
-      <Button variant='outline' size="lg" onClick={onCancel} className="flex-1 sm:flex-none">
-        キャンセル
-      </Button>
-      <Button size="lg" onClick={handleSave} className="flex-1 sm:flex-none">
-        <Save className='mr-2 h-5 w-5' /> 保存
-      </Button>
-    </div>
+          {roundPlayers.length === 0 && (
+            <div className='text-center py-8 text-muted-foreground'>
+              プレイヤーを追加してスコアの記録を開始してください。
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   </div>
-    </div >
-  );
+);
+
 }
