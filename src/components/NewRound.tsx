@@ -363,11 +363,11 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
 
       {/* Fixed bottom action bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 shadow-lg z-10">
-        <div className="max-w-7xl mx-auto relative flex justify-center">
-          <Button variant='outline' size="lg" onClick={onCancel} className="absolute left-0">
+        <div className="max-w-7xl mx-auto relative flex items-center justify-center w-full">
+          <Button variant='outline' size="lg" onClick={onCancel} className="absolute left-4 h-14">
             キャンセル
           </Button>
-          <Button size="lg" onClick={handleSave} className="h-20 text-xl px-16">
+          <Button size="lg" onClick={handleSave} className="h-20 text-xl px-16 shadow-xl">
             <Save className='mr-2 h-6 w-6' /> 保存
           </Button>
         </div>
