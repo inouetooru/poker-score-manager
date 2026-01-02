@@ -131,32 +131,37 @@ function AppContent() {
       {/* 新規ラウンド画面の保存・キャンセルボタン */}
       {currentView === 'new-round' && (
         <div
-          className="fixed left-0 right-0 z-[99999] bg-background border-t border-border shadow-lg"
+          className="bg-background border-t border-border shadow-lg"
           style={{
-            bottom: `env(safe-area-inset-bottom, 0px)`,
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 99999,
             paddingBottom: `calc(1rem + env(safe-area-inset-bottom, 0px))`,
             paddingTop: '1rem'
           }}
         >
-          <div className="max-w-4xl mx-auto px-4 flex gap-4 justify-center">
+          <div className="max-w-md mx-auto flex items-center justify-between gap-4 px-4">
             <Button
-              variant="ghost"
-              className="flex-1 max-w-xs h-16 text-lg"
+              variant='outline'
+              size="lg"
               onClick={() => setCurrentView('dashboard')}
+              className="h-14 px-6 border-2 font-semibold"
             >
-              <Home className="h-5 w-5 mr-2" />
               キャンセル
             </Button>
+
             <Button
-              className="flex-1 max-w-xs h-16 text-lg bg-green-600 hover:bg-green-700"
+              size="lg"
               onClick={() => {
                 if ((window as any).__newRoundSave) {
                   (window as any).__newRoundSave();
                 }
               }}
+              className="h-16 flex-1 max-w-[240px] text-xl font-bold shadow-2xl bg-primary"
             >
-              <Save className="h-5 w-5 mr-2" />
-              保存
+              <Save className='mr-2 h-6 w-6' /> 保存
             </Button>
           </div>
         </div>
