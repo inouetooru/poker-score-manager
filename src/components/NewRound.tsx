@@ -361,17 +361,6 @@ export function NewRound({ onCancel, onSave }: NewRoundProps) {
         </CardContent>
       </Card>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t-2 border-gray-300 p-4 shadow-2xl" style={{ zIndex: 99999 }}>
-        <div className="max-w-md mx-auto flex items-center justify-between gap-4">
-          <Button variant='outline' size="lg" onClick={onCancel} className="h-14 px-6 border-2 font-semibold">
-            キャンセル
-          </Button>
-
-          <Button size="lg" onClick={handleSave} className="h-16 flex-1 max-w-[240px] text-xl font-bold shadow-2xl">
-            <Save className='mr-2 h-6 w-6' /> 保存
-          </Button>
-        </div>
-      </div>
     </div>
   );
 
