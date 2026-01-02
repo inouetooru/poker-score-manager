@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Capacitor (only for main branch, kept in android-app branch)
+android/
+ios/
+capacitor.config.ts
