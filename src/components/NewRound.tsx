@@ -284,7 +284,7 @@ export function NewRound({ onSave, onCancel }: NewRoundProps) {
         </CardHeader>
         <CardContent className='space-y-4'>
           <div className='grid w-full items-center gap-1.5'>
-            <label htmlFor='event' className='text-sm font-medium'>イベント</label>
+            <label htmlFor='event' className='text-sm font-medium'>イベント選択</label>
             <select
               id='event'
               className='flex h-12 w-full rounded-md border border-input bg-background px-4 py-3 text-base'
@@ -383,9 +383,9 @@ export function NewRound({ onSave, onCancel }: NewRoundProps) {
           </div>
           <div className='grid w-full items-center gap-1.5'>
             <label className='text-sm font-medium'>ウマ設定</label>
-            <div className='flex items-center gap-4'>
+            <div className='space-y-2'>
               <div className='flex items-center gap-2'>
-                <span className='text-sm whitespace-nowrap'>1位/4位 ±</span>
+                <span className='text-sm whitespace-nowrap w-24'>1位/4位 ±</span>
                 <Input
                   type='number'
                   value={uma14}
@@ -394,7 +394,7 @@ export function NewRound({ onSave, onCancel }: NewRoundProps) {
                 />
               </div>
               <div className='flex items-center gap-2'>
-                <span className='text-sm whitespace-nowrap'>2位/3位 ±</span>
+                <span className='text-sm whitespace-nowrap w-24'>2位/3位 ±</span>
                 <Input
                   type='number'
                   value={uma23}

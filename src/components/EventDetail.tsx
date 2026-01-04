@@ -223,14 +223,18 @@ export function EventDetail({ eventId, onBack, onPlayerSelect }: EventDetailProp
                                 </tr>
                                 {/* 合計行 */}
                                 <tr className="bg-muted/50">
-                                    <td className="p-3 text-base font-bold">合計（レート含む）</td>
+                                    <td className="p-3 text-base font-bold">合計</td>
                                     <td className="p-3"></td>
                                     {Array.from(playerStats.entries()).map(([playerId, stats]) => (
-                                        <td key={playerId} className={`text-center p-3 font-bold text-base ${stats.calculatedTotalProfit > 0 ? 'text-blue-500' : stats.calculatedTotalProfit < 0 ? 'text-red-500' : ''}`}>
-                                            {stats.calculatedTotalProfit > 0 ? '+' : ''}{Math.round(stats.calculatedTotalProfit).toLocaleString()}
+                                        <td key={playerId} className={`text-center p-3 font-bold text-sm ${stats.totalScore > 0 ? 'text-blue-400' : stats.totalScore < 0 ? 'text-red-500' : ''}`}>
+                                            <div>{stats.totalScore > 0 ? '+' : ''}{Math.round(stats.totalScore)}</div>
+                                            <div className="text-xs">({stats.calculatedTotalProfit > 0 ? '+' : ''}{Math.round(stats.calculatedTotalProfit).toLocaleString()})</div>
                                         </td>
                                     ))}
-                                    <td className="p-3 text-center font-bold text-base text-green-500">0</td>
+                                    <td className="p-3 text-center font-bold text-sm text-green-500">
+                                        <div>0</div>
+                                        <div className="text-xs">(0)</div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
