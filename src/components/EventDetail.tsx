@@ -120,7 +120,7 @@ export function EventDetail({ eventId, onBack, onPlayerSelect }: EventDetailProp
                                             </td>
                                             <td className="p-4 text-center font-mono text-base">{stats.rounds}</td>
                                             <td className={`p-4 text-right font-mono font-bold text-lg ${stats.calculatedTotalProfit > 0 ? "text-blue-400" : stats.calculatedTotalProfit < 0 ? "text-red-500" : "text-muted-foreground"}`}>
-                                                calculatedTotalProfit: {stats.calculatedTotalProfit > 0 ? '+' : ''}{Math.round(stats.calculatedTotalProfit).toLocaleString()}
+                                                {stats.calculatedTotalProfit > 0 ? '+' : ''}{Math.round(stats.calculatedTotalProfit).toLocaleString()}
                                             </td>
                                         </tr>
                                     ))}
@@ -203,14 +203,14 @@ export function EventDetail({ eventId, onBack, onPlayerSelect }: EventDetailProp
 
                                                 return (
                                                     <td key={playerId} className={`text-center p-3 text-sm font-medium ${score > 0 ? 'text-blue-400' : score < 0 ? 'text-red-500' : ''}`}>
-                                                        <div>score: {score > 0 ? '+' : ''}{Math.round(score)}</div>
-                                                        <div className="text-xs">(calculatedScore: {calculatedScore > 0 ? '+' : ''}{Math.round(calculatedScore).toLocaleString()})</div>
+                                                        <div>{score > 0 ? '+' : ''}{Math.round(score)}</div>
+                                                        <div className="text-xs">({calculatedScore > 0 ? '+' : ''}{Math.round(calculatedScore).toLocaleString()})</div>
                                                     </td>
                                                 );
                                             })}
                                             <td className={`text-center p-3 text-sm font-bold ${totalScore === 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                <div>totalScore: {totalScore > 0 ? '+' : ''}{Math.round(totalScore)}</div>
-                                                <div className="text-xs">(calculatedTotalScore: {calculatedTotalScore > 0 ? '+' : ''}{Math.round(calculatedTotalScore).toLocaleString()})</div>
+                                                <div>{totalScore > 0 ? '+' : ''}{Math.round(totalScore)}</div>
+                                                <div className="text-xs">({calculatedTotalScore > 0 ? '+' : ''}{Math.round(calculatedTotalScore).toLocaleString()})</div>
                                             </td>
                                         </tr>
                                     );
@@ -227,7 +227,7 @@ export function EventDetail({ eventId, onBack, onPlayerSelect }: EventDetailProp
                                     <td className="p-3"></td>
                                     {Array.from(playerStats.entries()).map(([playerId, stats]) => (
                                         <td key={playerId} className={`text-center p-3 font-bold text-base ${stats.calculatedTotalProfit > 0 ? 'text-blue-500' : stats.calculatedTotalProfit < 0 ? 'text-red-500' : ''}`}>
-                                            calculatedTotalProfit: {stats.calculatedTotalProfit > 0 ? '+' : ''}{Math.round(stats.calculatedTotalProfit).toLocaleString()}
+                                            {stats.calculatedTotalProfit > 0 ? '+' : ''}{Math.round(stats.calculatedTotalProfit).toLocaleString()}
                                         </td>
                                     ))}
                                     <td className="p-3 text-center font-bold text-base text-green-500">0</td>
