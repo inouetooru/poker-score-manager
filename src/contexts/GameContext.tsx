@@ -8,12 +8,15 @@ interface GameContextType {
   addPlayer: (name: string) => Player;
   deletePlayer: (playerId: string) => void;
   resetData: () => void;
-  createEvent: (name: string, date: string, rate: number, location?: string) => Event;
-  createEventWithRound: (name: string, date: string, rate: number, location: string | undefined, roundResults: GameResult[], roundRate: number) => Event;
-  addRoundToEvent: (eventId: string, results: GameResult[], roundRate: number, notes?: string) => void;
+  createEvent: (name: string, date: string, rate: number, umaSettings: number[], startPoints: number, returnPoints: number, location?: string, yakitori?: number) => Event;
+  createEventWithRound: (name: string, date: string, rate: number, location: string | undefined, roundResults: GameResult[], roundRate: number, umaSettings: number[], startPoints: number, returnPoints: number, yakitori?: number) => Event;
+  addRoundToEvent: (eventId: string, results: GameResult[], roundRate: number, umaSettings: number[], startPoints: number, returnPoints: number, yakitori?: number, notes?: string) => void;
+  updateRound: (eventId: string, roundId: string, results: GameResult[], roundRate: number, umaSettings: number[], startPoints: number, returnPoints: number, yakitori?: number, notes?: string) => void;
+  deleteRound: (eventId: string, roundId: string) => void;
   deleteEvent: (id: string) => void;
-  getPlayerData: (playerId: string) => { totalProfit: number; gamesPlayed: number; averageRank?: number };
-  getPlayerHistory: (playerId: string) => { date: string; score: number; cumulativeScore: number }[];
+  getPlayerData: (playerId: string) => { totalProfit: number; gamesPlayed: number; averageRank: number; rankDistribution: { rank1: number; rank2: number; rank3: number; rank4: number } };
+  getPlayerEventData: (playerId: string) => { eventId: string; eventName: string; eventDate: string; totalProfit: number; gamesPlayed: number; averageRank: number }[];
+  getPlayerHistory: (playerId: string) => { date: string; score: number; cumulativeScore: number; rank: number; gameNumber: number }[];
   importData: (data: AppData) => void;
   exportData: () => string;
 }
@@ -28,8 +31,8 @@ function generateId() {
 }
 
 export const GameProvider = ({ children }: { children: ReactNode }) => {
-  const [players, setPlayers] = useLocalStorage<Player[]>('poker-players', []);
-  const [events, setEvents] = useLocalStorage<Event[]>('poker-events', []);
+  const [players, setPlayers] = useLocalStorage<Player[]>('mahjong-players', []);
+  const [events, setEvents] = useLocalStorage<Event[]>('mahjong-events', []);
 
   // Functional update for addPlayer to be safe, though not strictly required if only one update happens
   const addPlayer = (name: string) => {
@@ -62,12 +65,16 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     // Force a reload to ensure clean state if needed, but state updates should be enough
   };
 
-  const createEvent = (name: string, date: string, rate: number, location?: string) => {
+  const createEvent = (name: string, date: string, rate: number, umaSettings: number[], startPoints: number, returnPoints: number, location?: string, yakitori?: number) => {
     const newEvent: Event = {
       id: generateId(),
       name,
       date,
       rate,
+      umaSettings,
+      startPoints,
+      returnPoints,
+      yakitori,
       location,
       rounds: [],
       createdAt: new Date().toISOString(),
@@ -76,18 +83,26 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     return newEvent;
   };
 
-  const createEventWithRound = (name: string, date: string, rate: number, location: string | undefined, roundResults: GameResult[], roundRate: number) => {
+  const createEventWithRound = (name: string, date: string, rate: number, location: string | undefined, roundResults: GameResult[], roundRate: number, umaSettings: number[], startPoints: number, returnPoints: number, yakitori?: number) => {
     const newEvent: Event = {
       id: generateId(),
       name,
       date,
       rate,
+      umaSettings,
+      startPoints,
+      returnPoints,
+      yakitori,
       location,
       rounds: [{
         id: generateId(),
         roundNumber: 1,
         results: roundResults,
-        rate: roundRate
+        rate: roundRate,
+        umaSettings,
+        startPoints,
+        returnPoints,
+        yakitori
       }],
       createdAt: new Date().toISOString(),
     };
@@ -95,7 +110,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     return newEvent;
   };
 
-  const addRoundToEvent = (eventId: string, results: GameResult[], roundRate: number, notes?: string) => {
+  const addRoundToEvent = (eventId: string, results: GameResult[], roundRate: number, umaSettings: number[], startPoints: number, returnPoints: number, yakitori?: number, notes?: string) => {
     setEvents(prev => prev.map(event => {
       if (event.id === eventId) {
         const newRound: Round = {
@@ -103,6 +118,10 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
           roundNumber: event.rounds.length + 1,
           results,
           rate: roundRate,
+          umaSettings,
+          startPoints,
+          returnPoints,
+          yakitori,
           notes,
         };
         return { ...event, rounds: [...event.rounds, newRound] };
@@ -115,26 +134,81 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     setEvents(prev => prev.filter(e => e.id !== id));
   };
 
+  const updateRound = (eventId: string, roundId: string, results: GameResult[], roundRate: number, umaSettings: number[], startPoints: number, returnPoints: number, yakitori?: number, notes?: string) => {
+    setEvents(prev => prev.map(event => {
+      if (event.id === eventId) {
+        const updatedRounds = event.rounds.map(round => {
+          if (round.id === roundId) {
+            return {
+              ...round,
+              results,
+              rate: roundRate,
+              umaSettings,
+              startPoints,
+              returnPoints,
+              yakitori,
+              notes,
+            };
+          }
+          return round;
+        });
+        return { ...event, rounds: updatedRounds };
+      }
+      return event;
+    }));
+  };
+
+  const deleteRound = (eventId: string, roundId: string) => {
+    setEvents(prev => prev.map(event => {
+      if (event.id === eventId) {
+        const updatedRounds = event.rounds.filter(round => round.id !== roundId);
+        // Update round numbers to be sequential
+        const reorderedRounds = updatedRounds.map((round, index) => ({
+          ...round,
+          roundNumber: index + 1,
+        }));
+        return { ...event, rounds: reorderedRounds };
+      }
+      return event;
+    }));
+  };
+
   const getPlayerData = (playerId: string) => {
     let totalProfit = 0;
     let gamesPlayed = 0;
+    let totalRank = 0;
+    let rank1 = 0;
+    let rank2 = 0;
+    let rank3 = 0;
+    let rank4 = 0;
 
     events.forEach(event => {
       event.rounds.forEach(round => {
         const result = round.results.find((r: GameResult) => r.playerId === playerId);
         if (result) {
           totalProfit += result.score;
+          totalRank += result.rank;
           gamesPlayed++;
+
+          // Count rank distribution
+          if (result.rank === 1) rank1++;
+          else if (result.rank === 2) rank2++;
+          else if (result.rank === 3) rank3++;
+          else if (result.rank === 4) rank4++;
         }
       });
     });
 
-    return { totalProfit, gamesPlayed };
+    const averageRank = gamesPlayed > 0 ? totalRank / gamesPlayed : 0;
+    const rankDistribution = { rank1, rank2, rank3, rank4 };
+
+    return { totalProfit, gamesPlayed, averageRank, rankDistribution };
   };
 
   const getPlayerHistory = (playerId: string) => {
-    const history: { date: string; score: number; cumulativeScore: number }[] = [];
+    const history: { date: string; score: number; cumulativeScore: number; rank: number; gameNumber: number }[] = [];
     let cumulativeScore = 0;
+    let gameNumber = 0;
 
     // Flatten all rounds with their event dates
     const allRounds: { date: string; round: Round }[] = [];
@@ -150,18 +224,54 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     allRounds.forEach(({ date, round }) => {
       const result = round.results.find((r: GameResult) => r.playerId === playerId);
       if (result) {
-        // Use round.rate to recalculate score if needed
-        const actualScore = (result.chipEnd - result.chipStart) * round.rate;
+        gameNumber++;
+        // Use the score directly from result (already calculated with uma)
+        const actualScore = result.score;
         cumulativeScore += actualScore;
         history.push({
           date,
           score: actualScore,
           cumulativeScore,
+          rank: result.rank,
+          gameNumber,
         });
       }
     });
 
     return history;
+  };
+
+  const getPlayerEventData = (playerId: string) => {
+    const eventData: { eventId: string; eventName: string; eventDate: string; totalProfit: number; gamesPlayed: number; averageRank: number }[] = [];
+
+    events.forEach(event => {
+      let totalProfit = 0;
+      let gamesPlayed = 0;
+      let totalRank = 0;
+
+      event.rounds.forEach(round => {
+        const result = round.results.find((r: GameResult) => r.playerId === playerId);
+        if (result) {
+          totalProfit += result.score;
+          totalRank += result.rank;
+          gamesPlayed++;
+        }
+      });
+
+      if (gamesPlayed > 0) {
+        const averageRank = totalRank / gamesPlayed;
+        eventData.push({
+          eventId: event.id,
+          eventName: event.name,
+          eventDate: event.date,
+          totalProfit,
+          gamesPlayed,
+          averageRank,
+        });
+      }
+    });
+
+    return eventData;
   };
 
   const importData = (data: AppData) => {
@@ -183,8 +293,11 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
       createEvent,
       createEventWithRound,
       addRoundToEvent,
+      updateRound,
+      deleteRound,
       deleteEvent,
       getPlayerData,
+      getPlayerEventData,
       getPlayerHistory,
       importData,
       exportData

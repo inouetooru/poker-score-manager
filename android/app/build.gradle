@@ -19,22 +19,22 @@ android {
     
     signingConfigs {
         release {
-            // Signing configuration will be added when keystore is ready
-            // Uncomment and configure after generating keystore:
-            // def keystorePropertiesFile = rootProject.file("key.properties")
-            // def keystoreProperties = new Properties()
-            // keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            // 
-            // keyAlias keystoreProperties['keyAlias']
-            // keyPassword keystoreProperties['keyPassword']
-            // storeFile file(keystoreProperties['storeFile'])
-            // storePassword keystoreProperties['storePassword']
+            def keystorePropertiesFile = rootProject.file("key.properties")
+            if (keystorePropertiesFile.exists()) {
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
     
     buildTypes {
         release {
-            // signingConfig signingConfigs.release  // Uncomment after configuring signing
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

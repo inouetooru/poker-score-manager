@@ -4,7 +4,6 @@ import { Button } from './ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
 import { Input } from './ui/Input';
 import { ArrowLeft, Search, Trash2 } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 interface PlayersListProps {
     onBack: () => void;
@@ -25,69 +24,93 @@ export function PlayersList({ onBack, onPlayerSelect }: PlayersListProps) {
     );
 
     return (
-        <div className="space-y-6 pb-safe">
+        <div className="space-y-8 pb-safe">
             <div className="flex items-center gap-4">
-                <Button variant="outline" size="icon" onClick={onBack}>
-                    <ArrowLeft className="h-4 w-4" />
+                <Button variant="outline" size="icon" onClick={onBack} className="h-12 w-12">
+                    <ArrowLeft className="h-6 w-6" />
                 </Button>
-                <h2 className="text-3xl font-bold tracking-tight">プレイヤー</h2>
+                <h2 className="text-4xl font-bold tracking-tight">プレイヤー</h2>
             </div>
 
-            <div className="flex items-center space-x-2">
-                <Search className="h-4 w-4 text-muted-foreground" />
+            <div className="flex items-center space-x-3">
+                <Search className="h-5 w-5 text-muted-foreground" />
                 <Input
                     placeholder="プレイヤーを検索..."
-                    className="max-w-xs"
+                    className="max-w-xs h-14 text-base"
                     value={searchTerm}
                     onChange={e => setSearchTerm(e.target.value)}
                 />
             </div>
 
-            {/* Charts Area */}
+            {/* 累積成績テーブル */}
             <Card>
                 <CardHeader>
-                    <CardTitle>スコアランキング (トップ10)</CardTitle>
+                    <CardTitle className="text-2xl">累積成績</CardTitle>
                 </CardHeader>
-                <CardContent className="h-[300px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={playerData.slice(0, 10)}>
-                            <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                            <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}`} />
-                            <Tooltip
-                                cursor={{ fill: 'transparent' }}
-                                contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
-                            />
-                            <Bar dataKey="totalProfit" radius={[4, 4, 0, 0]}>
-                                {playerData.slice(0, 10).map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={entry.totalProfit >= 0 ? 'hsl(var(--chart-1))' : 'hsl(var(--destructive))'} />
+                <CardContent>
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead>
+                                <tr className="border-b border-border">
+                                    <th className="text-center p-4 font-medium text-base w-20 whitespace-nowrap">順位</th>
+                                    <th className="text-center p-4 font-medium text-base w-48 whitespace-nowrap">名前</th>
+                                    <th className="text-center p-4 font-medium text-base w-24 whitespace-nowrap">半荘数</th>
+                                    <th className="text-center p-4 font-medium text-base w-20 whitespace-nowrap">1位</th>
+                                    <th className="text-center p-4 font-medium text-base w-20 whitespace-nowrap">2位</th>
+                                    <th className="text-center p-4 font-medium text-base w-20 whitespace-nowrap">3位</th>
+                                    <th className="text-center p-4 font-medium text-base w-20 whitespace-nowrap">4位</th>
+                                    <th className="text-center p-4 font-medium text-base w-32 whitespace-nowrap">スコア</th>
+                                    <th className="text-center p-4 font-medium text-base w-28 whitespace-nowrap">平均順位</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {playerData.map((p, index) => (
+                                    <tr
+                                        key={p.id}
+                                        className="border-b border-border/50 hover:bg-accent/10 cursor-pointer"
+                                        onClick={() => onPlayerSelect?.(p.id)}
+                                    >
+                                        <td className="p-4 font-mono text-base text-center whitespace-nowrap">{index + 1}</td>
+                                        <td className="p-4 font-medium text-base underline text-center whitespace-nowrap" style={{ color: '#60a5fa', textDecorationColor: '#60a5fa' }}>{p.name}</td>
+                                        <td className="p-4 text-right font-mono text-base whitespace-nowrap">{p.gamesPlayed}</td>
+                                        <td className="p-4 text-center font-mono text-base whitespace-nowrap">{p.rankDistribution.rank1}回</td>
+                                        <td className="p-4 text-center font-mono text-base whitespace-nowrap">{p.rankDistribution.rank2}回</td>
+                                        <td className="p-4 text-center font-mono text-base whitespace-nowrap">{p.rankDistribution.rank3}回</td>
+                                        <td className="p-4 text-center font-mono text-base whitespace-nowrap">{p.rankDistribution.rank4}回</td>
+                                        <td className={`p-4 text-right font-mono font-bold text-lg whitespace-nowrap ${p.totalProfit > 0 ? 'text-blue-400' : p.totalProfit < 0 ? 'text-red-500' : 'text-muted-foreground'}`}>
+                                            {p.totalProfit > 0 ? '+' : ''}{p.totalProfit}
+                                        </td>
+                                        <td className="p-4 text-right font-mono text-base whitespace-nowrap">{p.gamesPlayed > 0 ? p.averageRank.toFixed(2) : '-'}</td>
+                                    </tr>
                                 ))}
-                            </Bar>
-                        </BarChart>
-                    </ResponsiveContainer>
+                            </tbody>
+                        </table>
+                    </div>
                 </CardContent>
             </Card>
 
             <Card>
                 <CardHeader>
-                    <CardTitle>全プレイヤー</CardTitle>
+                    <CardTitle className="text-2xl">全プレイヤー</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                         {filteredPlayers.map(p => (
                             <Card key={p.id} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onPlayerSelect?.(p.id)}>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center justify-between">
-                                        <span className="underline">{p.name}</span>
+                                <CardHeader className="py-5">
+                                    <CardTitle className="flex items-center justify-between text-xl">
+                                        <span className="underline" style={{ color: '#60a5fa', textDecorationColor: '#60a5fa' }}>{p.name}</span>
                                         <div className="flex items-center gap-4">
                                             <div className="text-right">
-                                                <div className={p.totalProfit > 0 ? "text-green-500 font-bold" : p.totalProfit < 0 ? "text-red-500 font-bold" : "text-muted-foreground"}>
+                                                <div className={`text-2xl ${p.totalProfit > 0 ? "text-blue-400 font-bold" : p.totalProfit < 0 ? "text-red-500 font-bold" : "text-muted-foreground"}`}>
                                                     {p.totalProfit > 0 ? '+' : ''}{p.totalProfit}
                                                 </div>
-                                                <div className="text-xs text-muted-foreground">{p.gamesPlayed} ゲーム</div>
+                                                <div className="text-sm text-muted-foreground mt-1">{p.gamesPlayed} 半荘</div>
                                             </div>
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
+                                                className="h-10 w-10"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (confirm(`${p.name}を削除しますか？`)) {
@@ -95,7 +118,7 @@ export function PlayersList({ onBack, onPlayerSelect }: PlayersListProps) {
                                                     }
                                                 }}
                                             >
-                                                <Trash2 className="h-4 w-4 text-destructive" />
+                                                <Trash2 className="h-5 w-5 text-destructive" />
                                             </Button>
                                         </div>
                                     </CardTitle>

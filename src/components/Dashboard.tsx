@@ -30,81 +30,54 @@ export function Dashboard({ onNewRound, onNavigate, onEventSelect }: DashboardPr
     const topPlayer = playerScores.sort((a, b) => b.score - a.score)[0];
 
     return (
-        <div className="space-y-6 pb-safe">
+        <div className="space-y-8 pb-safe">
             <div className="flex items-center justify-between">
-                <h2 className="text-3xl font-bold tracking-tight">ダッシュボード</h2>
-                <Button onClick={onNewRound} size="lg" className="bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all">
-                    <PlusCircle className="mr-2 h-5 w-5" />
-                    新規ラウンド
+                <h2 className="text-4xl font-bold tracking-tight">ダッシュボード</h2>
+                <Button onClick={onNewRound} size="lg" className="bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all h-14 px-6 text-base">
+                    <PlusCircle className="mr-2 h-6 w-6" />
+                    新規半荘
                 </Button>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-1">
                 <Card className="cursor-default">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">総ラウンド数</CardTitle>
-                        <History className="h-4 w-4 text-muted-foreground" />
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+                        <CardTitle className="text-base font-medium">総半荘数</CardTitle>
+                        <History className="h-6 w-6 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{totalRounds}</div>
-                        <p className="text-xs text-muted-foreground">
-                            記録されたセッション
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card onClick={() => onNavigate('players')} className="cursor-pointer hover:bg-accent/10 transition-colors">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">上位プレイヤー</CardTitle>
-                        <Trophy className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{topPlayer ? topPlayer.name : "—"}</div>
-                        <p className="text-xs text-muted-foreground">
-                            {topPlayer ? `${topPlayer.score > 0 ? '+' : ''}${topPlayer.score}` : "データなし"}
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card onClick={() => onNavigate('players')} className="cursor-pointer hover:bg-accent/10 transition-colors">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">アクティブプレイヤー</CardTitle>
-                        <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{players.length}</div>
-                        <p className="text-xs text-muted-foreground">
-                            登録済み
+                        <div className="text-4xl font-bold">{totalRounds}</div>
+                        <p className="text-sm text-muted-foreground mt-2">
+                            記録された半荘
                         </p>
                     </CardContent>
                 </Card>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-1">
+            <div className="grid gap-6 md:grid-cols-1">
                 <Card>
                     <CardHeader>
-                        <CardTitle>最近の活動</CardTitle>
+                        <CardTitle className="text-2xl">最近の活動</CardTitle>
                     </CardHeader>
                     <CardContent>
                         {events.length === 0 ? (
-                            <div className="text-center py-8 text-muted-foreground">
-                                まだゲームが記録されていません。新しいラウンドを開始してください！
+                            <div className="text-center py-12 text-muted-foreground text-base">
+                                まだ対局が記録されていません。新しい半荘を開始してください！
                             </div>
                         ) : (
-                            <div className="space-y-4">
+                            <div className="space-y-3">
                                 {events.slice(0, 5).map(event => (
-                                    <div key={event.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
-                                        <div className="flex-1">
-                                            <p
-                                                className="font-medium text-lg cursor-pointer hover:text-primary transition-colors py-2 px-3 -mx-3 rounded-md hover:bg-accent active:bg-accent/80 underline"
-                                                onClick={() => onEventSelect?.(event.id)}
-                                            >
-                                                {event.name}
-                                            </p>
-                                            <p className="text-sm text-muted-foreground px-3">
-                                                {new Date(event.date).toLocaleDateString()} - レート: {event.rate}, ラウンド: {event.rounds.length}
-                                            </p>
-                                        </div>
+                                    <div key={event.id} className="flex items-center justify-between border-b pb-3 last:border-0 last:pb-0 hover:bg-accent/10 transition-colors px-2 py-2 rounded">
+                                        <span
+                                            className="font-medium text-base cursor-pointer underline"
+                                            style={{ color: '#60a5fa', textDecorationColor: '#60a5fa' }}
+                                            onClick={() => onEventSelect?.(event.id)}
+                                        >
+                                            {event.name}
+                                        </span>
+                                        <span className="text-base text-muted-foreground whitespace-nowrap ml-4">
+                                            {new Date(event.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })} - 半荘数: {event.rounds.length}
+                                        </span>
                                     </div>
                                 ))}
                             </div>
